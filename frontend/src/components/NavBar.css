@@ -1,0 +1,52 @@
+.navbar {
+  width: 100%;
+  background-color: #333;
+  display: flex;
+  justify-content: space-between; /* Space between for left and right alignment */
+  align-items: center;     /* Center the nav container vertically */
+  padding: 0 20px; /* Add padding to the left and right */
+  box-sizing: border-box;
+}
+
+.nav-links {
+  display: flex;
+  justify-content: center; /* Center the nav links horizontally */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links li {
+  margin: 0 15px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  padding: 14px 20px;
+  display: block;
+}
+
+.nav-links a.active {
+  background-color: #3e9141;
+  color: white;
+}
+
+.nav-links a:hover {
+  background-color: #4CAF50; /* Change background color on hover */
+  color: white; /* Ensure text color remains readable */
+  transition: background-color 0.3s ease;
+}
+
+.download-button {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.download-icon {
+  width: 48px; /* Adjust the size as needed */
+  height: 48px; /* Adjust the size as needed */
+  cursor: pointer;
+}

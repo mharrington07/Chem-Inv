@@ -1,0 +1,36 @@
+.delete-button {
+  background-color: rgba(255, 0, 0, 0.596) !important;
+  color: white !important;
+  border: none !important;
+  padding: 5px 10px !important;
+  cursor: pointer !important;
+  border-radius: 5px !important;
+}
+
+.delete-button:hover {
+  background-color: darkred !important;
+}
+
+/* Add styles for touch-friendly buttons */
+button {
+  min-width: 44px;
+  min-height: 44px;
+  font-size: 16px;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .MuiDataGrid-root {
+    font-size: 12px;
+  }
+
+  .MuiButton-root {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .MuiTextField-root {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+}
