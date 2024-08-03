@@ -1,4 +1,4 @@
-
+# WARNING THIS IS MY FIRST NODE PROJECT AND IM REALLY BAD AT PYTHON
 # Chemistry Inventory database
 
 This project is indended for classroom use to keep track of Chemicals, Glassware, and Equipment and allow users to modify amounts.
