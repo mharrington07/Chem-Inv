@@ -1,8 +1,9 @@
-// src/api.js
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL, // Use the environment variable
+const instance = axios.create({
+  baseURL: process.env.NODE_ENV === 'production'
+    ? 'http://YOURURL'  // Replace this with your actual production URL
+    : 'http://LOCALURL',  // Replace with your local network IP and backend port
 });
 
-export default api;
+export default instance;
