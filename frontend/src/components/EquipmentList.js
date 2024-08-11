@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api'; // Import the axios instance
 import { DataGrid } from '@mui/x-data-grid';
 import { TextField, Button, Container, Box } from '@mui/material';
 import { toast, ToastContainer } from 'react-toastify';
@@ -12,7 +12,7 @@ const EquipmentList = () => {
   const [amount, setAmount] = useState('');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/equipment')
+    api.get('/equipment')
       .then(response => {
         console.log('Fetched data:', response.data);  // Log fetched data to verify structure
         setEquipment(response.data);
@@ -22,7 +22,7 @@ const EquipmentList = () => {
 
   const handleAddEquipment = () => {
     if (name && amount) {
-      axios.post('http://localhost:5000/equipment', { name, amount })
+      api.post('/equipment', { name, amount })
         .then(response => {
           setEquipment([...equipment, response.data]);
           setName('');
@@ -36,7 +36,7 @@ const EquipmentList = () => {
   };
 
   const handleDeleteEquipment = (id) => {
-    axios.delete(`http://localhost:5000/equipment/${id}`)
+    api.delete(`/equipment/${id}`)
       .then(() => {
         setEquipment(equipment.filter(item => item.id !== id));
         toast.success('Equipment has been deleted!');
@@ -74,45 +74,49 @@ const EquipmentList = () => {
   return (
     <Container>
       <h1 className="my-4">Equipment</h1>
-      <Box sx={{ height: 400, width: '100%' }}>
-        <DataGrid
-          rows={equipment}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10, 20, 30]}
-          checkboxSelection
-          disableSelectionOnClick
-          autoHeight
-        />
-      </Box>
-      <Box sx={{ mt: 4 }}>
-        <TextField
-          label="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onKeyPress={handleKeyPress}
-          fullWidth
-          margin="normal"
-          variant="outlined"
-        />
-        <TextField
-          label="Amount"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          onKeyPress={handleKeyPress}
-          fullWidth
-          margin="normal"
-          variant="outlined"
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleAddEquipment}
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          Add Equipment
-        </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ width: '25%' }}>
+          <TextField
+            label="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onKeyPress={handleKeyPress}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            size="small"
+          />
+          <TextField
+            label="Amount"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+            onKeyPress={handleKeyPress}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            size="small"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleAddEquipment}
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            Add Equipment
+          </Button>
+        </Box>
+        <Box sx={{ height: 400, width: '70%' }}>
+          <DataGrid
+            rows={equipment}
+            columns={columns}
+            pageSize={10}
+            rowsPerPageOptions={[10, 20, 30]}
+            checkboxSelection
+            disableSelectionOnClick
+            autoHeight
+          />
+        </Box>
       </Box>
       <ToastContainer />
     </Container>

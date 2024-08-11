@@ -5,7 +5,7 @@ import downloadIcon from './assets/download_button_2x.png'; // Update the path t
 
 const NavBar = () => {
   const handleDownload = () => {
-    window.location.href = `http://localhost:5000/download/backup`;
+    window.location.href = `http://5.161.233.167:5000/download/backup`;
   };
 
   return (
