@@ -14,7 +14,6 @@ const GlasswareList = () => {
   useEffect(() => {
     api.get('/glassware')
       .then(response => {
-        console.log('Fetched data:', response.data);  // Log fetched data to verify structure
         setGlassware(response.data);
       })
       .catch(error => console.error('Error fetching data: ', error));
@@ -44,6 +43,21 @@ const GlasswareList = () => {
       .catch(error => console.error('Error deleting glassware: ', error));
   };
 
+  const handleProcessRowUpdate = async (newRow) => {
+    const { id, ...updatedFields } = newRow;
+
+    try {
+      const response = await api.put(`/glassware/${id}`, updatedFields);
+      setGlassware(glassware.map(item => item.id === id ? response.data : item));
+      toast.success('Changes saved!');
+      return response.data;
+    } catch (error) {
+      console.error('Error updating glassware:', error);
+      toast.error('Failed to save changes!');
+      throw error;
+    }
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleAddGlassware();
@@ -52,8 +66,8 @@ const GlasswareList = () => {
 
   const columns = [
     { field: 'id', headerName: 'ID', flex: 0.5, sortable: true },
-    { field: 'name', headerName: 'Name', flex: 1, sortable: true },
-    { field: 'amount', headerName: 'Amount', flex: 1, sortable: true },
+    { field: 'name', headerName: 'Name', flex: 1, sortable: true, editable: true },
+    { field: 'amount', headerName: 'Amount', flex: 1, sortable: true, editable: true },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -61,7 +75,7 @@ const GlasswareList = () => {
       renderCell: (params) => (
         <Button
           variant="contained"
-          className="delete-button"  // Use the custom CSS class
+          className="delete-button"
           onClick={() => handleDeleteGlassware(params.row.id)}
         >
           X
@@ -115,6 +129,7 @@ const GlasswareList = () => {
             checkboxSelection
             disableSelectionOnClick
             autoHeight
+            processRowUpdate={handleProcessRowUpdate}
           />
         </Box>
       </Box>

@@ -14,7 +14,6 @@ const EquipmentList = () => {
   useEffect(() => {
     api.get('/equipment')
       .then(response => {
-        console.log('Fetched data:', response.data);  // Log fetched data to verify structure
         setEquipment(response.data);
       })
       .catch(error => console.error('Error fetching data: ', error));
@@ -44,6 +43,21 @@ const EquipmentList = () => {
       .catch(error => console.error('Error deleting equipment: ', error));
   };
 
+  const handleProcessRowUpdate = async (newRow) => {
+    const { id, ...updatedFields } = newRow;
+
+    try {
+      const response = await api.put(`/equipment/${id}`, updatedFields);
+      setEquipment(equipment.map(item => item.id === id ? response.data : item));
+      toast.success('Changes saved!');
+      return response.data;
+    } catch (error) {
+      console.error('Error updating equipment:', error);
+      toast.error('Failed to save changes!');
+      throw error;
+    }
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleAddEquipment();
@@ -52,8 +66,8 @@ const EquipmentList = () => {
 
   const columns = [
     { field: 'id', headerName: 'ID', flex: 0.5, sortable: true },
-    { field: 'name', headerName: 'Name', flex: 1, sortable: true },
-    { field: 'amount', headerName: 'Amount', flex: 1, sortable: true },
+    { field: 'name', headerName: 'Name', flex: 1, sortable: true, editable: true },
+    { field: 'amount', headerName: 'Amount', flex: 1, sortable: true, editable: true },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -61,7 +75,7 @@ const EquipmentList = () => {
       renderCell: (params) => (
         <Button
           variant="contained"
-          className="delete-button"  // Use the custom CSS class
+          className="delete-button"
           onClick={() => handleDeleteEquipment(params.row.id)}
         >
           X
@@ -115,6 +129,7 @@ const EquipmentList = () => {
             checkboxSelection
             disableSelectionOnClick
             autoHeight
+            processRowUpdate={handleProcessRowUpdate}
           />
         </Box>
       </Box>
